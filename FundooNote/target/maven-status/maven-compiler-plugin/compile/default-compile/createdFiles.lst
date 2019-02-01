@@ -1,0 +1,6 @@
+com/bridgelabz/spring/service/UserService.class
+com/bridgelabz/spring/model/UserDetails.class
+com/bridgelabz/spring/dao/UserDaoImpl.class
+com/bridgelabz/spring/controller/USerController.class
+com/bridgelabz/spring/dao/UserDao.class
+com/bridgelabz/spring/service/UserServiceImlp.class
