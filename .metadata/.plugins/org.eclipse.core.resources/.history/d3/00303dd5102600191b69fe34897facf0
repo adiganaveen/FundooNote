@@ -1,0 +1,81 @@
+package com.bridgelabz.spring.dao;
+
+import java.util.List;
+
+
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.bridgelabz.spring.model.User;
+
+@Repository
+public class UserDaoImpl implements UserDao {
+
+	@Autowired
+	private SessionFactory sessionFactory;
+
+	public int register(User user) {
+		int userId = 0;
+		Session session = sessionFactory.getCurrentSession();
+		userId = (Integer) session.save(user);
+		return userId;
+	}
+
+	public User login(User user) {
+		Session session = sessionFactory.getCurrentSession();
+		String hqlQuery = "from User where emailId = :emailId and password =:password";
+		Query query = session.createQuery(hqlQuery);
+		query.setParameter("emailId", user.getEmailId());
+		query.setParameter("password", user.getPassword());
+		User existingUser = (User) query.uniqueResult();
+		return existingUser;
+	}
+
+	public User getUserByEmail(String emailId) {
+
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("from User");
+		List<User> users = query.list();
+		for (User user : users) {
+			System.out.println("List of users :" + user.getId() + "," + user.getName() + "," + user.getEmailId() + ","
+					+ user.getMobileNumber());
+		}
+		query = session.createQuery("from User where emailId= :emailId");
+		query.setString("emailId", emailId);
+		User user = (User) query.uniqueResult();
+		System.out.println("User detail is=" + user.getName() + "," + user.getEmailId() + "," + user.getMobileNumber());
+		session.close();
+		return user;
+	}
+
+	public void updateUser(String emailId,User user)
+    {
+     Session session=sessionFactory.openSession();
+     Transaction tx=session.beginTransaction();
+     session.update(user);
+     tx.commit();
+     session.close();
+    }
+
+	public List<User> listUsers() {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<User> usersList = session.createQuery("from User").list();
+		return usersList;
+	}
+
+	public void deleteUser(String emailId,User user) {
+		Session session=sessionFactory.openSession();
+	     Transaction tx=session.beginTransaction();
+	     session.update(user);
+	     tx.commit();
+	     session.close();
+	     return null;
+	}
+
+}

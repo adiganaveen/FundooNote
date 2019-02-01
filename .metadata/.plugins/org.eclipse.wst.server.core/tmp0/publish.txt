@@ -1,4 +1,4 @@
 #Tomcat publish data
-#Fri Feb 01 10:21:24 IST 2019
+#Fri Feb 01 18:44:34 IST 2019
 org.eclipse.jst.j2ee.server\:FundooNote=/home/admin1/Downloads/sts-bundle/pivotal-tc-server-developer-3.2.9.RELEASE/base-instance/wtpwebapps/FundooNote
 org.eclipse.jst.j2ee.server\:/binary\:/home/admin1/.m2/repository/org/springframework/spring-web/4.3.10.RELEASE/spring-web-4.3.10.RELEASE.jar=/home/admin1/Downloads/sts-bundle/pivotal-tc-server-developer-3.2.9.RELEASE/base-instance/wtpwebapps/FundooNote/WEB-INF/lib/spring-web-4.3.10.RELEASE.jar

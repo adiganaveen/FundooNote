@@ -1,6 +1,6 @@
-/home/admin1/Documents/adiga_docs/SpringHibernate/SpringHibernate/src/main/java/com/bridgelabz/spring/controller/USerController.java
-/home/admin1/Documents/adiga_docs/SpringHibernate/SpringHibernate/src/main/java/com/bridgelabz/spring/service/UserService.java
-/home/admin1/Documents/adiga_docs/SpringHibernate/SpringHibernate/src/main/java/com/bridgelabz/spring/model/UserDetails.java
-/home/admin1/Documents/adiga_docs/SpringHibernate/SpringHibernate/src/main/java/com/bridgelabz/spring/dao/UserDaoImpl.java
-/home/admin1/Documents/adiga_docs/SpringHibernate/SpringHibernate/src/main/java/com/bridgelabz/spring/service/UserServiceImlp.java
-/home/admin1/Documents/adiga_docs/SpringHibernate/SpringHibernate/src/main/java/com/bridgelabz/spring/dao/UserDao.java
+/home/admin1/Documents/adiga_docs/Fundoo/FundooNote/src/main/java/com/bridgelabz/spring/dao/UserDao.java
+/home/admin1/Documents/adiga_docs/Fundoo/FundooNote/src/main/java/com/bridgelabz/spring/controller/USerController.java
+/home/admin1/Documents/adiga_docs/Fundoo/FundooNote/src/main/java/com/bridgelabz/spring/service/UserServiceImlp.java
+/home/admin1/Documents/adiga_docs/Fundoo/FundooNote/src/main/java/com/bridgelabz/spring/model/User.java
+/home/admin1/Documents/adiga_docs/Fundoo/FundooNote/src/main/java/com/bridgelabz/spring/service/UserService.java
+/home/admin1/Documents/adiga_docs/Fundoo/FundooNote/src/main/java/com/bridgelabz/spring/dao/UserDaoImpl.java

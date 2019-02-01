@@ -1,10 +1,9 @@
 package com.bridgelabz.spring.dao;
 
-import java.util.List;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,28 +22,60 @@ public class UserDaoImpl implements UserDao {
 		return userId;
 	}
 
-	public User login(User user) {
-		Session session = sessionFactory.getCurrentSession();
-		String hqlQuery = "from User where userName = :userName and password =:password";
-		Query query = session.createQuery(hqlQuery);
-		query.setParameter("userName", user.getEmailId());
-		query.setParameter("password", user.getPassword());
-		User existingUser = (User) query.uniqueResult();
-		return existingUser;
+	public User loginUser(String emailId, String password) {
+
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("from User where emailId= :emailId and password =:password");
+		query.setString("emailId", emailId);
+		query.setString("password", password);
+		User user = (User) query.uniqueResult();
+		tx.commit();
+		if (user != null) {
+			System.out.println("User detail is=" + user.getId() + "," + user.getName() + "," + user.getEmailId() + ","
+					+ user.getMobileNumber());
+			session.close();
+			return user;
+		} else {
+			return null;
+		}
+
 	}
 
-	public boolean updateUser(User user) {
-		return false;
+	public User getUserByEmailId(String emailId) {
 
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("from User where emailId= :emailId");
+		query.setString("emailId", emailId);
+		User user = (User) query.uniqueResult();
+		tx.commit();
+		if (user != null) {
+			System.out.println("User detail is=" + user.getId() + "," + user.getName() + "," + user.getEmailId() + ","
+					+ user.getMobileNumber());
+			session.close();
+			return user;
+		} else {
+			return null;
+		}
 	}
 
-	public List<User> getUsersList() {
-
-		return null;
+	public void updateUser(String emailId, User user) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.update(user);
+		tx.commit();
+		session.close();
 	}
 
-	public void deleteUser(String id) {
-
+	public void deleteUser(String emailId) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("DELETE from User u where u.emailId= :emailId");
+		query.setString("emailId", emailId);
+		query.executeUpdate();
+		tx.commit();
+		session.close();
 	}
 
 }

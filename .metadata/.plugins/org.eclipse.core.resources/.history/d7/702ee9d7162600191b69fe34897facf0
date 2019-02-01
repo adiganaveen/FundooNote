@@ -1,0 +1,19 @@
+package com.bridgelabz.spring.dao;
+
+import java.util.List;
+
+import com.bridgelabz.spring.model.User;
+
+public interface UserDao {
+
+	public int register(User user);
+	
+	public User loginUser(String emailId);
+	
+	public void updateUser(String emailId,User user);
+	
+	public void deleteUser(String emailId,User user);
+
+	public List<User> listUsers();
+
+}
