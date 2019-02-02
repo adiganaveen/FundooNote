@@ -8,10 +8,11 @@ public interface UserDao {
 
 	public User loginUser(String emailId, String password);
 
-	public User getUserByEmailId(String emailId);
+	public User getUserById(int id);
 
-	public void updateUser(String emailId, User user);
+	public void updateUser(int id, User user);
 
-	public void deleteUser(String emailId);
+	public void deleteUser(int id);
+	
 
 }

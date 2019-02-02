@@ -25,12 +25,10 @@ public class UserDaoImpl implements UserDao {
 	public User loginUser(String emailId, String password) {
 
 		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
 		Query query = session.createQuery("from User where emailId= :emailId and password =:password");
 		query.setString("emailId", emailId);
 		query.setString("password", password);
 		User user = (User) query.uniqueResult();
-		tx.commit();
 		if (user != null) {
 			System.out.println("User detail is=" + user.getId() + "," + user.getName() + "," + user.getEmailId() + ","
 					+ user.getMobileNumber());
@@ -42,14 +40,12 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
-	public User getUserByEmailId(String emailId) {
+	public User getUserById(int id) {
 
 		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("from User where emailId= :emailId");
-		query.setString("emailId", emailId);
+		Query query = session.createQuery("from User where id= :id");
+		query.setInteger("id", id);
 		User user = (User) query.uniqueResult();
-		tx.commit();
 		if (user != null) {
 			System.out.println("User detail is=" + user.getId() + "," + user.getName() + "," + user.getEmailId() + ","
 					+ user.getMobileNumber());
@@ -60,21 +56,17 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
-	public void updateUser(String emailId, User user) {
+	public void updateUser(int id, User user) {
 		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
 		session.update(user);
-		tx.commit();
 		session.close();
 	}
 
-	public void deleteUser(String emailId) {
+	public void deleteUser(int id) {
 		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("DELETE from User u where u.emailId= :emailId");
-		query.setString("emailId", emailId);
+		Query query = session.createQuery("DELETE from User u where u.id= :id");
+		query.setInteger("id", id);
 		query.executeUpdate();
-		tx.commit();
 		session.close();
 	}
 

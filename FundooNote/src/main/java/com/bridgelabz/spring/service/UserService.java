@@ -9,8 +9,8 @@ public interface UserService {
 
 	public User loginUser(String emailId, String password, HttpServletRequest request);
 
-	public User updateUser(String emailId, User user, HttpServletRequest request);
+	public User updateUser(int id, User user, HttpServletRequest request);
 
-	public User deleteUser(String emailId, HttpServletRequest request);
+	public User deleteUser(int id, HttpServletRequest request);
 
 }

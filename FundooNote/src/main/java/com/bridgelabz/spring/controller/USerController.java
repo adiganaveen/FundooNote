@@ -45,10 +45,10 @@ public class USerController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public ResponseEntity<?> updateUser(@RequestParam("emailId") String emailId, @RequestBody User user,
+	public ResponseEntity<?> updateUser(@RequestParam("id") int id, @RequestBody User user,
 			HttpServletRequest request) {
 
-		User user2 = userService.updateUser(emailId, user, request);
+		User user2 = userService.updateUser(id, user, request);
 		if (user2 != null) {
 			return new ResponseEntity<User>(user2, HttpStatus.FOUND);
 		} else {
@@ -58,9 +58,9 @@ public class USerController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteUser(@RequestParam("emailId") String emailId, HttpServletRequest request) {
+	public ResponseEntity<?> deleteUser(@RequestParam("id") int id, HttpServletRequest request) {
 
-		User user = userService.deleteUser(emailId, request);
+		User user = userService.deleteUser(id, request);
 		if (user != null) {
 			return new ResponseEntity<User>(user, HttpStatus.FOUND);
 		} else {

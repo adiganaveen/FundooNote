@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bridgelabz.spring.Utility.TokenGenerator;
 import com.bridgelabz.spring.dao.UserDao;
 import com.bridgelabz.spring.model.User;
 
@@ -14,35 +15,43 @@ public class UserServiceImlp implements UserService {
 
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private TokenGenerator tokenGenerator;
 
 	@Transactional
 	public boolean register(User user, HttpServletRequest request) {
 		int id = userDao.register(user);
 		if (id > 0) {
+			String token = tokenGenerator.generateToken(String.valueOf(id));
+			System.out.println(token);
 			return true;
 		}
 		return false;
 	}
 
+	@Transactional
 	public User loginUser(String emailId, String password, HttpServletRequest request) {
 		return userDao.loginUser(emailId, password);
 	}
 
-	public User updateUser(String emailId, User user, HttpServletRequest request) {
-		User user2 = userDao.getUserByEmailId(emailId);
+	@Transactional
+	public User updateUser(int id, User user, HttpServletRequest request) {
+		User user2 = userDao.getUserById(id);
 		if (user2 != null) {
 			user2.setMobileNumber(user.getMobileNumber());
 			user2.setName(user.getName());
 			user2.setPassword(user.getPassword());
-			userDao.updateUser(emailId, user2);
+			userDao.updateUser(id, user2);
 		}
 		return user2;
 	}
 
-	public User deleteUser(String emailId, HttpServletRequest request) {
-		User user2 = userDao.getUserByEmailId(emailId);
+	@Transactional
+	public User deleteUser(int id, HttpServletRequest request) {
+		User user2 = userDao.getUserById(id);
 		if (user2 != null) {
-			userDao.deleteUser(emailId);
+			userDao.deleteUser(id);
 		}
 		return user2;
 	}
