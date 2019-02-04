@@ -1,0 +1,12 @@
+package com.bridgelabz.spring.dao;
+
+import com.bridgelabz.spring.model.Note;
+
+public class NoteDaoImpl implements NoteDao {
+
+	public int register(Note note) {
+		
+		return 0;
+	}
+
+}

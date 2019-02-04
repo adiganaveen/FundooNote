@@ -1,0 +1,16 @@
+package com.bridgelabz.spring.dao;
+
+import com.bridgelabz.spring.model.Note;
+import com.bridgelabz.spring.model.User;
+
+public interface NoteDao {
+	public int create(Note note);
+	
+//	public User loginUser(String emailId, String password);
+
+	public User getNoteById(int id);
+
+	public void updateNote(int id, User user);
+
+	public void deleteNote(int id);
+}
