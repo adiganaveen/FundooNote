@@ -8,6 +8,7 @@ com/bridgelabz/spring/dao/NoteDaoImpl.class
 com/bridgelabz/spring/model/Note.class
 com/bridgelabz/spring/Utility/TokenGenerator.class
 com/bridgelabz/spring/Utility/JWTGenerator.class
+com/bridgelabz/spring/Utility/EmailUtil.class
 com/bridgelabz/spring/dao/UserDaoImpl.class
 com/bridgelabz/spring/dao/NoteDao.class
 com/bridgelabz/spring/service/NoteServiceImpl.class

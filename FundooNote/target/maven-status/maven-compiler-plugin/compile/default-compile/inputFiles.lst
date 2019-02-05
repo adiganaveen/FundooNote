@@ -11,4 +11,5 @@
 /home/admin1/Documents/adiga_docs/Fundoo/FundooNote/src/main/java/com/bridgelabz/spring/Utility/JWTGenerator.java
 /home/admin1/Documents/adiga_docs/Fundoo/FundooNote/src/main/java/com/bridgelabz/spring/service/UserServiceImpl.java
 /home/admin1/Documents/adiga_docs/Fundoo/FundooNote/src/main/java/com/bridgelabz/spring/dao/NoteDao.java
+/home/admin1/Documents/adiga_docs/Fundoo/FundooNote/src/main/java/com/bridgelabz/spring/Utility/EmailUtil.java
 /home/admin1/Documents/adiga_docs/Fundoo/FundooNote/src/main/java/com/bridgelabz/spring/dao/UserDaoImpl.java

@@ -2,8 +2,11 @@ package com.bridgelabz.spring.Utility;
 
 import java.util.Date;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -16,7 +19,11 @@ public class JWTGenerator implements TokenGenerator {
 	}
 
 	public int verifyToken(String token) {
-		return 0;
+		Claims claims = Jwts.parser()        
+                .setSigningKey(DatatypeConverter.parseBase64Binary("secretKey"))
+                .parseClaimsJws(token).getBody();
+             System.out.println("ID: " + claims.getId());
+             return Integer.parseInt(claims.getId());
 	}
 
 }

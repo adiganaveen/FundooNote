@@ -10,29 +10,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailUtil {
 
-    @Autowired
-    private MailSender mailSender;
+	@Autowired
+	private MailSender mailSender;
 
-    public void sendEmail(String toEmail, String subject, String body) {
-        try {
-            SimpleMailMessage msg = new SimpleMailMessage();
-
-            msg.setFrom("adiga.naveen77@gmail.com");
-
-            msg.setTo("mundargi95@gmail.com");
-
-            msg.setSubject(subject);
-
-            msg.setText(body);
-
-            msg.setSentDate(new Date());
-
-            System.out.println("Message is ready");
-            mailSender.send(msg);
-
-            System.out.println("EMail Sent Successfully!!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	public void sendEmail(String toEmail, String subject, String activationUrl) {
+		try {
+			SimpleMailMessage msg = new SimpleMailMessage();
+			msg.setFrom("adiga.naveen77@gmail.com");
+			msg.setTo("adiga.naveen77@gmail.com");
+			msg.setSubject("Fundoo Note Verification");
+			String message = "Please click on the link to verify \n\n" + activationUrl;
+			msg.setText(message);
+			msg.setSentDate(new Date());
+			mailSender.send(msg);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

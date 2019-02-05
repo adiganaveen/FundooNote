@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.spring.Utility.EmailUtil;
@@ -21,15 +22,22 @@ public class UserServiceImpl implements UserService {
 	private TokenGenerator tokenGenerator;
 
 	@Autowired
-	
+    private PasswordEncoder bcryptEncoder;
+
+	@Autowired
 	private EmailUtil emailUtil;
+	
 	@Transactional
 	public boolean register(User user, HttpServletRequest request) {
+		user.setPassword(bcryptEncoder.encode(user.getPassword()));
 		int id = userDao.register(user);
 		if (id > 0) {
 			String token = tokenGenerator.generateToken(String.valueOf(id));
 			System.out.println(token);
-			emailUtil.sendEmail("", "I'm Naveen", "I'm child......!!!!!!!");
+			StringBuffer requestUrl = request.getRequestURL();
+            String activationUrl = requestUrl.substring(0, requestUrl.lastIndexOf("/"));
+            activationUrl = activationUrl + "/activationstatus/"+token;
+			emailUtil.sendEmail("", "",activationUrl);
 			return true;
 		}
 		return false;
@@ -37,7 +45,12 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public User loginUser(String emailId, String password, HttpServletRequest request) {
-		return userDao.loginUser(emailId, password);
+		User user=userDao.loginUser(emailId);
+		if(bcryptEncoder.matches(password, user.getPassword()))
+		{
+			return user;
+		}
+		return null;
 	}
 
 	@Transactional
@@ -47,6 +60,7 @@ public class UserServiceImpl implements UserService {
 			user2.setMobileNumber(user.getMobileNumber());
 			user2.setName(user.getName());
 			user2.setPassword(user.getPassword());
+			user2.setPassword(bcryptEncoder.encode(user2.getPassword()));
 			userDao.updateUser(id, user2);
 		}
 		return user2;
@@ -59,6 +73,18 @@ public class UserServiceImpl implements UserService {
 			userDao.deleteUser(id);
 		}
 		return user2;
+	}
+	
+	@Transactional
+	public User activateUser(String token, HttpServletRequest request) {
+		int id=tokenGenerator.verifyToken(token);
+		User user=userDao.getUserById(id);
+		if(user!=null)
+		{
+			user.setActivationStatus(true);
+			userDao.updateUser(id, user);
+		}
+		return user;
 	}
 
 }
