@@ -1,14 +1,19 @@
 package com.bridgelabz.spring.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "User")
@@ -40,6 +45,19 @@ public class User implements Serializable {
 
 	public void setActivationStatus(boolean activationStatus) {
 		this.activationStatus = activationStatus;
+	}
+	
+
+	@OneToMany(mappedBy = "userId")
+	@JsonIgnore
+	private Set<Note> setOfNotes;
+
+	public Set<Note> getSetOfNotes() {
+		return setOfNotes;
+	}
+
+	public void setSetOfNotes(Set<Note> setOfNotes) {
+		this.setOfNotes = setOfNotes;
 	}
 
 	public int getId() {

@@ -1,6 +1,7 @@
 package com.bridgelabz.spring.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,9 +36,9 @@ public class USerController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ResponseEntity<?> loginUser(@RequestParam("emailId") String emailId,
-			@RequestParam("password") String password, HttpServletRequest request) {
+			@RequestParam("password") String password, HttpServletRequest request,HttpServletResponse response) {
 
-		User user = userService.loginUser(emailId, password, request);
+		User user = userService.loginUser(emailId, password, request,response);
 		if (user != null) {
 			return new ResponseEntity<User>(user, HttpStatus.FOUND);
 		} else {

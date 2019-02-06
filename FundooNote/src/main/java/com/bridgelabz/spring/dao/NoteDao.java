@@ -7,7 +7,7 @@ import com.bridgelabz.spring.model.Note;
 public interface NoteDao {
 	public int create(Note note);
 
-	public List<Note> retrieve();
+	public List<Note> retrieve(int id);
 
 	public Note getNoteById(int id);
 

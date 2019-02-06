@@ -17,3 +17,13 @@
 0:0:0:0:0:0:0:1 - - [05/Feb/2019:19:04:14 +0530] "POST /FundooNote/update?id=28 HTTP/1.1" 404 69
 0:0:0:0:0:0:0:1 - - [05/Feb/2019:19:04:35 +0530] "POST /FundooNote/register HTTP/1.1" 200 -
 127.0.0.1 - - [05/Feb/2019:19:09:14 +0530] "GET /FundooNote/activationstatus/eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIyOSIsInJvbGVzIjoiZXhpc3RpbmdVc2VyIiwiaWF0IjoxNTQ5MzczNjY3fQ.lAidG9i-LKJyUb1pIQOtWa-KZ3_TnJeZnmrvWgK5AVs HTTP/1.1" 302 9
+0:0:0:0:0:0:0:1 - - [05/Feb/2019:19:14:43 +0530] "POST /FundooNote/register HTTP/1.1" 200 -
+0:0:0:0:0:0:0:1 - - [05/Feb/2019:19:15:41 +0530] "POST /FundooNote/register HTTP/1.1" 200 -
+0:0:0:0:0:0:0:1 - - [05/Feb/2019:19:16:49 +0530] "POST /FundooNote/register HTTP/1.1" 200 -
+127.0.0.1 - - [05/Feb/2019:19:17:28 +0530] "GET / HTTP/1.1" 404 1074
+127.0.0.1 - - [05/Feb/2019:19:17:28 +0530] "GET /FundooNote/ HTTP/1.1" 200 52
+0:0:0:0:0:0:0:1 - - [05/Feb/2019:19:18:09 +0530] "POST /FundooNote/register HTTP/1.1" 200 -
+127.0.0.1 - - [05/Feb/2019:19:18:56 +0530] "GET / HTTP/1.1" 404 1074
+127.0.0.1 - - [05/Feb/2019:19:18:57 +0530] "GET /FundooNote/ HTTP/1.1" 200 52
+0:0:0:0:0:0:0:1 - - [05/Feb/2019:19:19:33 +0530] "POST /FundooNote/register HTTP/1.1" 200 -
+127.0.0.1 - - [05/Feb/2019:19:19:46 +0530] "GET /FundooNote/activationstatus/eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzNCIsInJvbGVzIjoiZXhpc3RpbmdVc2VyIiwiaWF0IjoxNTQ5Mzc0NTYxfQ.aXtc9shGEbp_oXpQo8aaaXBKkrWPD8HUInUC96yQOmU HTTP/1.1" 302 9

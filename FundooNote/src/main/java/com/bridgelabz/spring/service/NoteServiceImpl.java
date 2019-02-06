@@ -14,8 +14,6 @@ import com.bridgelabz.spring.dao.UserDao;
 import com.bridgelabz.spring.model.Note;
 import com.bridgelabz.spring.model.User;
 
-
-
 @Service
 public class NoteServiceImpl implements NoteService {
 
@@ -25,19 +23,24 @@ public class NoteServiceImpl implements NoteService {
 	@Autowired
 	private TokenGenerator tokenGenerator;
 
+	@Autowired
+	private UserDao userDao;
+
 	@Transactional
-	public boolean create(Note note, HttpServletRequest request) {
-		int id = noteDao.create(note);
-		if (id > 0) {
-			 String token = tokenGenerator.generateToken(String.valueOf(id));
-			 System.out.println(token);
-			return true;
+	public boolean create(int id, Note note, HttpServletRequest request) {
+		User user = userDao.getUserById(id);
+		if (user != null) {
+			note.setUserId(user);
+			int i = noteDao.create(note);
+			if (i > 0) {
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Transactional
-	public Note updateNote(int id, Note note,HttpServletRequest request) {
+	public Note updateNote(int id, Note note, HttpServletRequest request) {
 		Note note2 = noteDao.getNoteById(id);
 		if (note2 != null) {
 			note2.setTitle(note.getTitle());
@@ -51,7 +54,7 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Transactional
-	public Note deleteNote(int id,HttpServletRequest request) {
+	public Note deleteNote(int id, HttpServletRequest request) {
 		Note note2 = noteDao.getNoteById(id);
 		if (note2 != null) {
 			noteDao.deleteNote(id);
@@ -60,10 +63,13 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Transactional
-	public List<Note> retrieve(HttpServletRequest request) {
-		List<Note> listOfNote = noteDao.retrieve();
-		if (!listOfNote.isEmpty()) {
-			return listOfNote;
+	public List<Note> retrieve(int id, HttpServletRequest request) {
+		User user = userDao.getUserById(id);
+		if (user != null) {
+			List<Note> listOfNote = noteDao.retrieve(id);
+			if (!listOfNote.isEmpty()) {
+				return listOfNote;
+			}
 		}
 		return null;
 	}

@@ -1,6 +1,7 @@
 package com.bridgelabz.spring.service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +45,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public User loginUser(String emailId, String password, HttpServletRequest request) {
+	public User loginUser(String emailId, String password, HttpServletRequest request,HttpServletResponse response) {
 		User user=userDao.loginUser(emailId);
-		if(bcryptEncoder.matches(password, user.getPassword()))
+		if(bcryptEncoder.matches(password, user.getPassword()) && user.isActivationStatus())
 		{
+			String token = tokenGenerator.generateToken(String.valueOf(user.getId()));
+			response.setHeader("token", token);
 			return user;
 		}
 		return null;

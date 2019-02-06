@@ -22,9 +22,10 @@ public class NoteController {
 	private NoteService noteService;
 
 	@RequestMapping(value = "/createnote", method = RequestMethod.POST)
-	public ResponseEntity<String> createNote(@RequestBody Note note, HttpServletRequest request) {
+	public ResponseEntity<String> createNote(@RequestParam("id") int id, @RequestBody Note note,
+			HttpServletRequest request) {
 		try {
-			if (noteService.create(note, request))
+			if (noteService.create(id, note, request))
 				return new ResponseEntity<String>("Successfully Registered", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -32,10 +33,10 @@ public class NoteController {
 		}
 		return new ResponseEntity<String>("There was a issue raised cannot register", HttpStatus.CONFLICT);
 	}
-	
+
 	@RequestMapping(value = "/retrieve", method = RequestMethod.GET)
-	public ResponseEntity<?> createNote(HttpServletRequest request) {
-		List<Note> listOfNote = noteService.retrieve(request);
+	public ResponseEntity<?> retrieve(@RequestParam("id") int id, HttpServletRequest request) {
+		List<Note> listOfNote = noteService.retrieve(id, request);
 		if (!listOfNote.isEmpty()) {
 			return new ResponseEntity<List<Note>>(listOfNote, HttpStatus.FOUND);
 		} else {
