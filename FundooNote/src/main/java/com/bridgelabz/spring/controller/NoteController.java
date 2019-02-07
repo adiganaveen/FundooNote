@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgelabz.spring.model.Label;
 import com.bridgelabz.spring.model.Note;
 import com.bridgelabz.spring.service.NoteService;
 
@@ -22,50 +24,125 @@ public class NoteController {
 	private NoteService noteService;
 
 	@RequestMapping(value = "/createnote", method = RequestMethod.POST)
-	public ResponseEntity<String> createNote(@RequestParam("id") int id, @RequestBody Note note,
+	public ResponseEntity<String> createNote(@RequestHeader("token") String token, @RequestBody Note note,
 			HttpServletRequest request) {
 		try {
-			if (noteService.create(id, note, request))
+			if (noteService.createNote(token, note, request))
 				return new ResponseEntity<String>("Successfully Registered", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<String>("There was a issue raised cannot register", HttpStatus.CONFLICT);
+			return new ResponseEntity<String>("There was a issue raised cannot create a note", HttpStatus.CONFLICT);
 		}
-		return new ResponseEntity<String>("There was a issue raised cannot register", HttpStatus.CONFLICT);
+		return new ResponseEntity<String>("There was a issue raised cannot create a note", HttpStatus.CONFLICT);
 	}
 
-	@RequestMapping(value = "/retrieve", method = RequestMethod.GET)
-	public ResponseEntity<?> retrieve(@RequestParam("id") int id, HttpServletRequest request) {
-		List<Note> listOfNote = noteService.retrieve(id, request);
+	@RequestMapping(value = "/retrievenote", method = RequestMethod.GET)
+	public ResponseEntity<?> retrieveNote(@RequestHeader("token") String token, HttpServletRequest request) {
+		List<Note> listOfNote = noteService.retrieveNote(token, request);
 		if (!listOfNote.isEmpty()) {
 			return new ResponseEntity<List<Note>>(listOfNote, HttpStatus.FOUND);
 		} else {
-			return new ResponseEntity<String>("Email incorrect. Please enter valid email address present in database",
+			return new ResponseEntity<String>("Please enter the value note id or verify your login",
 					HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	@RequestMapping(value = "/updatenote", method = RequestMethod.POST)
-	public ResponseEntity<?> updateUser(@RequestParam("id") int id, @RequestBody Note note,
-			HttpServletRequest request) {
 
-		Note note2 = noteService.updateNote(id, note, request);
+	@RequestMapping(value = "/updatenote", method = RequestMethod.POST)
+	public ResponseEntity<?> updateNote(@RequestHeader("token") String token, @RequestParam("id") int id,
+			@RequestBody Note note, HttpServletRequest request) {
+
+		Note note2 = noteService.updateNote(token, id, note, request);
 		if (note2 != null) {
 			return new ResponseEntity<Note>(note2, HttpStatus.FOUND);
 		} else {
-			return new ResponseEntity<String>("Email incorrect. Please enter valid email address present in database",
+			return new ResponseEntity<String>("Please enter the value note id or verify your login",
 					HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@RequestMapping(value = "/deletenote", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteUser(@RequestParam("id") int id, HttpServletRequest request) {
+	public ResponseEntity<?> deleteNote(@RequestHeader("token") String token, @RequestParam("id") int id,
+			HttpServletRequest request) {
 
-		Note note = noteService.deleteNote(id, request);
+		Note note = noteService.deleteNote(token, id, request);
 		if (note != null) {
 			return new ResponseEntity<Note>(note, HttpStatus.FOUND);
 		} else {
-			return new ResponseEntity<String>("Email incorrect. Please enter valid email address present in database",
+			return new ResponseEntity<String>("Please enter the value note id or verify your login",
+					HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@RequestMapping(value = "/createlabel", method = RequestMethod.POST)
+	public ResponseEntity<String> createLabel(@RequestHeader("token") String token, @RequestBody Label label,
+			HttpServletRequest request) {
+		try {
+			if (noteService.createLabel(token, label, request))
+				return new ResponseEntity<String>("Successfully Registered", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("User id given is not present or Note yet been activated",
+					HttpStatus.CONFLICT);
+		}
+		return new ResponseEntity<String>("User id given is not present or Note yet been activated",
+				HttpStatus.CONFLICT);
+	}
+
+	@RequestMapping(value = "/retrievelabel", method = RequestMethod.GET)
+	public ResponseEntity<?> retrieveLabel(@RequestHeader("token") String token, HttpServletRequest request) {
+		List<Label> listOfLabel = noteService.retrieveLabel(token, request);
+		if (!listOfLabel.isEmpty()) {
+			return new ResponseEntity<List<Label>>(listOfLabel, HttpStatus.FOUND);
+		} else {
+			return new ResponseEntity<String>("User id given is not present or Note yet been activated",
+					HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@RequestMapping(value = "/updatelabel", method = RequestMethod.POST)
+	public ResponseEntity<?> updateUser(@RequestHeader("token") String token, @RequestParam("id") int id,
+			@RequestBody Label label, HttpServletRequest request) {
+
+		Label label2 = noteService.updateLabel(token, id, label, request);
+		if (label2 != null) {
+			return new ResponseEntity<Label>(label2, HttpStatus.FOUND);
+		} else {
+			return new ResponseEntity<String>("User id given is not present or Note yet been activated",
+					HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@RequestMapping(value = "/deletelabel", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteLabel(@RequestHeader("token") String token, @RequestParam("id") int id,
+			HttpServletRequest request) {
+
+		Label label = noteService.deleteLabel(token, id, request);
+		if (label != null) {
+			return new ResponseEntity<Label>(label, HttpStatus.FOUND);
+		} else {
+			return new ResponseEntity<String>("User id given is not present or Note yet been activated",
+					HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@RequestMapping(value = "/addnotelabel", method = RequestMethod.PUT)
+	public ResponseEntity<?> addNoteLabel(@RequestHeader("token") String token,@RequestParam("noteId") int noteId,@RequestParam("labelId") int labelId,
+			HttpServletRequest request) {
+		if (noteService.addNoteLabel(token,noteId, labelId, request)) {
+			return new ResponseEntity<String>("Successfully mapped", HttpStatus.FOUND);
+		} else {
+			return new ResponseEntity<String>("User id given is not present or Note yet been activated",
+					HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@RequestMapping(value = "/removenotelabel", method = RequestMethod.DELETE)
+	public ResponseEntity<?> removeNoteLabel(@RequestHeader("token") String token,@RequestParam("noteId") int noteId,@RequestParam("labelId") int labelId,
+			HttpServletRequest request) {
+		if (noteService.removeNoteLabel(token,noteId, labelId, request)) {
+			return new ResponseEntity<String>("Successfully mapped", HttpStatus.FOUND);
+		} else {
+			return new ResponseEntity<String>("User id given is not present or Note yet been activated",
 					HttpStatus.NOT_FOUND);
 		}
 	}

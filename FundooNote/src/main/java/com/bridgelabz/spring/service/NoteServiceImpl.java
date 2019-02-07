@@ -1,6 +1,8 @@
 package com.bridgelabz.spring.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.bridgelabz.spring.Utility.TokenGenerator;
 import com.bridgelabz.spring.dao.NoteDao;
 import com.bridgelabz.spring.dao.UserDao;
+import com.bridgelabz.spring.model.Label;
 import com.bridgelabz.spring.model.Note;
 import com.bridgelabz.spring.model.User;
 
@@ -27,11 +30,12 @@ public class NoteServiceImpl implements NoteService {
 	private UserDao userDao;
 
 	@Transactional
-	public boolean create(int id, Note note, HttpServletRequest request) {
+	public boolean createNote(String token, Note note, HttpServletRequest request) {
+		int id = tokenGenerator.verifyToken(token);
 		User user = userDao.getUserById(id);
 		if (user != null) {
 			note.setUserId(user);
-			int i = noteDao.create(note);
+			int i = noteDao.createNote(note);
 			if (i > 0) {
 				return true;
 			}
@@ -40,38 +44,140 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Transactional
-	public Note updateNote(int id, Note note, HttpServletRequest request) {
-		Note note2 = noteDao.getNoteById(id);
-		if (note2 != null) {
-			note2.setTitle(note.getTitle());
-			note2.setDiscription(note.getDiscription());
-			note2.setArchive(note.isArchive());
-			note2.setPinned(note.isPinned());
-			note2.setInTrash(note.isInTrash());
-			noteDao.updateNote(id, note2);
+	public Note updateNote(String token, int id, Note note, HttpServletRequest request) {
+		int value = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(value);
+		if (user != null) {
+			Note note2 = noteDao.getNoteById(id);
+			if (note2 != null) {
+				note2.setTitle(note.getTitle());
+				note2.setDiscription(note.getDiscription());
+				note2.setArchive(note.isArchive());
+				note2.setPinned(note.isPinned());
+				note2.setInTrash(note.isInTrash());
+				noteDao.updateNote(id, note2);
+			}
+			return note2;
 		}
-		return note2;
+		return null;
 	}
 
 	@Transactional
-	public Note deleteNote(int id, HttpServletRequest request) {
-		Note note2 = noteDao.getNoteById(id);
-		if (note2 != null) {
-			noteDao.deleteNote(id);
+	public Note deleteNote(String token, int id, HttpServletRequest request) {
+		int value = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(value);
+		if (user != null) {
+			Note note2 = noteDao.getNoteById(id);
+			if (note2 != null) {
+				noteDao.deleteNote(id);
+			}
+			return note2;
 		}
-		return note2;
+		return null;
 	}
 
 	@Transactional
-	public List<Note> retrieve(int id, HttpServletRequest request) {
+	public List<Note> retrieveNote(String token, HttpServletRequest request) {
+		int id = tokenGenerator.verifyToken(token);
 		User user = userDao.getUserById(id);
 		if (user != null) {
-			List<Note> listOfNote = noteDao.retrieve(id);
+			List<Note> listOfNote = noteDao.retrieveNote(id);
 			if (!listOfNote.isEmpty()) {
 				return listOfNote;
 			}
 		}
 		return null;
+	}
+
+	@Transactional
+	public boolean createLabel(String token, Label label, HttpServletRequest request) {
+		int id = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(id);
+		if (user != null) {
+			label.setUserId(user);
+			int i = noteDao.createLabel(label);
+			if (i > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Transactional
+	public Label updateLabel(String token, int id, Label label, HttpServletRequest request) {
+		int value = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(value);
+		if (user != null) {
+			Label label2 = noteDao.getLabelById(id);
+			if (label2 != null) {
+				label2.setLabelName(label.getLabelName());
+				noteDao.updateLabel(id, label2);
+			}
+			return label2;
+		}
+		return null;
+	}
+
+	@Transactional
+	public Label deleteLabel(String token, int id, HttpServletRequest request) {
+		int value = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(value);
+		if (user != null) {
+			Label label2 = noteDao.getLabelById(id);
+			if (label2 != null) {
+				noteDao.deleteLabel(id);
+			}
+			return label2;
+		}
+		return null;
+	}
+
+	@Transactional
+	public List<Label> retrieveLabel(String token, HttpServletRequest request) {
+		int id = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(id);
+		if (user != null) {
+			List<Label> listOfLabel = noteDao.retrieveLabel(id);
+			if (!listOfLabel.isEmpty()) {
+				return listOfLabel;
+			}
+		}
+		return null;
+	}
+
+	@Transactional
+	public boolean addNoteLabel(String token, int noteId, int labelId, HttpServletRequest request) {
+		int id = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(id);
+		if (user != null) {
+			Note note = noteDao.getNoteById(noteId);
+			Label label = noteDao.getLabelById(labelId);
+			List<Label> listOfLabel = note.getListOfLabels();
+			listOfLabel.add(label);
+			if (!listOfLabel.isEmpty()) {
+				note.setListOfLabels(listOfLabel);
+				noteDao.updateNote(1, note);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean removeNoteLabel(String token, int noteId, int labelId, HttpServletRequest request) {
+		int id = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(id);
+		if (user != null) {
+			Note note = noteDao.getNoteById(noteId);
+			List<Label> listOfLabels = note.getListOfLabels();
+			if (!listOfLabels.isEmpty()) {
+				listOfLabels = listOfLabels.stream().filter(label -> label.getLabelId() != labelId)
+						.collect(Collectors.toList());
+				note.setListOfLabels(listOfLabels);
+				noteDao.updateNote(noteId, note);
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

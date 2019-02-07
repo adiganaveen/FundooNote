@@ -1,0 +1,159 @@
+package com.bridgelabz.spring.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bridgelabz.spring.Utility.TokenGenerator;
+import com.bridgelabz.spring.dao.NoteDao;
+import com.bridgelabz.spring.dao.UserDao;
+import com.bridgelabz.spring.model.Label;
+import com.bridgelabz.spring.model.Note;
+import com.bridgelabz.spring.model.User;
+
+@Service
+public class NoteServiceImpl implements NoteService {
+
+	@Autowired
+	private NoteDao noteDao;
+
+	@Autowired
+	private TokenGenerator tokenGenerator;
+
+	@Autowired
+	private UserDao userDao;
+
+	@Transactional
+	public boolean createNote(String token, Note note, HttpServletRequest request) {
+		int id = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(id);
+		if (user != null) {
+			note.setUserId(user);
+			int i = noteDao.createNote(note);
+			if (i > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Transactional
+	public Note updateNote(String token, int id, Note note, HttpServletRequest request) {
+		int value = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(value);
+		if (user != null) {
+			Note note2 = noteDao.getNoteById(id);
+			if (note2 != null) {
+				note2.setTitle(note.getTitle());
+				note2.setDiscription(note.getDiscription());
+				note2.setArchive(note.isArchive());
+				note2.setPinned(note.isPinned());
+				note2.setInTrash(note.isInTrash());
+				noteDao.updateNote(id, note2);
+			}
+			return note2;
+		}
+		return null;
+	}
+
+	@Transactional
+	public Note deleteNote(String token, int id, HttpServletRequest request) {
+		int value = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(value);
+		if (user != null) {
+			Note note2 = noteDao.getNoteById(id);
+			if (note2 != null) {
+				noteDao.deleteNote(id);
+			}
+			return note2;
+		}
+		return null;
+	}
+
+	@Transactional
+	public List<Note> retrieveNote(String token, HttpServletRequest request) {
+		int id = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(id);
+		if (user != null) {
+			List<Note> listOfNote = noteDao.retrieveNote(id);
+			if (!listOfNote.isEmpty()) {
+				return listOfNote;
+			}
+		}
+		return null;
+	}
+
+	@Transactional
+	public boolean createLabel(String token, Label label, HttpServletRequest request) {
+		int id = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(id);
+		if (user != null) {
+			label.setUserId(user);
+			int i = noteDao.createLabel(label);
+			if (i > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Transactional
+	public Label updateLabel(String token, int id, Label label, HttpServletRequest request) {
+		int value = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(value);
+		if (user != null) {
+			Label label2 = noteDao.getLabelById(id);
+			if (label2 != null) {
+				label2.setLabelName(label.getLabelName());
+				noteDao.updateLabel(id, label2);
+			}
+			return label2;
+		}
+		return null;
+	}
+
+	@Transactional
+	public Label deleteLabel(String token, int id, HttpServletRequest request) {
+		int value = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(value);
+		if (user != null) {
+			Label label2 = noteDao.getLabelById(id);
+			if (label2 != null) {
+				noteDao.deleteLabel(id);
+			}
+			return label2;
+		}
+		return null;
+	}
+
+	@Transactional
+	public List<Label> retrieveLabel(String token, HttpServletRequest request) {
+		int id = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(id);
+		if (user != null) {
+			List<Label> listOfLabel = noteDao.retrieveLabel(id);
+			if (!listOfLabel.isEmpty()) {
+				return listOfLabel;
+			}
+		}
+		return null;
+	}
+	
+	public boolean addNoteLabel(int noteId,int labelId,HttpServletRequest request)
+	{
+		Note note=noteDao.getNoteById(noteId);
+		Label label=noteDao.getLabelById(labelId);
+		List<Label> listOfLabel=new ArrayList<Label>();
+		listOfLabel.add(label);
+		if(!listOfLabel.isEmpty())
+		{
+			
+		}
+	}
+
+}

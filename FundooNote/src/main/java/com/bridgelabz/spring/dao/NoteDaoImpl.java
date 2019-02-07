@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bridgelabz.spring.model.Label;
 import com.bridgelabz.spring.model.Note;
 import com.bridgelabz.spring.model.User;
 
@@ -18,7 +19,7 @@ public class NoteDaoImpl implements NoteDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public int create(Note note) {
+	public int createNote(Note note) {
 		int noteId = 0;
 		Session session = sessionFactory.getCurrentSession();
 		noteId = (Integer) session.save(note);
@@ -28,8 +29,8 @@ public class NoteDaoImpl implements NoteDao {
 
 	public Note getNoteById(int id) {
 		Session session = sessionFactory.openSession();
-		Query query = session.createQuery("from Note where id= :id");
-		query.setInteger("id", id);
+		Query query = session.createQuery("from Note where noteId= :noteId");
+		query.setInteger("noteId", id);
 		Note note = (Note) query.uniqueResult();
 		if (note != null) {
 			session.close();
@@ -49,18 +50,64 @@ public class NoteDaoImpl implements NoteDao {
 
 	public void deleteNote(int id) {
 		Session session = sessionFactory.openSession();
-		Query query = session.createQuery("DELETE from Note u where u.id= :id");
-		query.setInteger("id", id);
+		Query query = session.createQuery("DELETE from Note u where u.noteId= :noteId");
+		query.setInteger("noteId", id);
 		query.executeUpdate();
 		session.close();
 	}
 
-	public List<Note> retrieve(int id) {
+	public List<Note> retrieveNote(int id) {
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery("from Note where userId= :userId");
 		query.setInteger("userId", id);
 		List<Note> listOfNote =query.list();
 		return listOfNote;
+	}
+	
+	
+	public int createLabel(Label label) {
+		int noteId = 0;
+		Session session = sessionFactory.getCurrentSession();
+		noteId = (Integer) session.save(label);
+		return noteId;
+
+	}
+
+	public Label getLabelById(int id) {
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery("from Label where labelId= :labelId");
+		query.setInteger("labelId", id);
+		Label label = (Label) query.uniqueResult();
+		if (label != null) {
+			session.close();
+			return label;
+		} else {
+			return null;
+		}
+	}
+
+	public void updateLabel(int id, Label label) {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		session.update(label);
+		transaction.commit();
+		session.close();
+	}
+
+	public void deleteLabel(int id) {
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery("DELETE from Label u where u.labelId= :labelId");
+		query.setInteger("labelId", id);
+		query.executeUpdate();
+		session.close();
+	}
+
+	public List<Label> retrieveLabel(int id) {
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery("from Label where userId= :userId");
+		query.setInteger("userId", id);
+		List<Label> listOfLabel =query.list();
+		return listOfLabel;
 	}
 
 }

@@ -51,6 +51,18 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "userId")
 	@JsonIgnore
 	private Set<Note> setOfNotes;
+	
+	@OneToMany(mappedBy = "userId")
+	@JsonIgnore
+	private Set<Label> setOfLabel;
+
+	public Set<Label> getSetOfLabel() {
+		return setOfLabel;
+	}
+
+	public void setSetOfLabel(Set<Label> setOfLabel) {
+		this.setOfLabel = setOfLabel;
+	}
 
 	public Set<Note> getSetOfNotes() {
 		return setOfNotes;
@@ -103,6 +115,9 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", emailId=" + emailId + ", password=" + password
-				+ ", mobileNumber=" + mobileNumber + "]";
+				+ ", mobileNumber=" + mobileNumber + ", activationStatus=" + activationStatus + ", setOfNotes="
+				+ setOfNotes + ", setOfLabel=" + setOfLabel + "]";
 	}
+
+
 }
