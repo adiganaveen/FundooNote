@@ -36,7 +36,11 @@
 <fullyQualifiedTypeName name="org.springframework.mail.MailSender"/>
 <fullyQualifiedTypeName name="org.springframework.mail.SimpleMailMessage"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
-<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="com.bridgelabz.spring.Utility.EmailUtil"/>
 <fullyQualifiedTypeName name="org.springframework.security.crypto.password.PasswordEncoder"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+<fullyQualifiedTypeName name="com.bridgelabz.spring.dao.UserDao"/>
+<fullyQualifiedTypeName name="org.codehaus.jackson.annotate.JsonIgnore"/>
+<fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpServletResponse"/>
 </qualifiedTypeNameHistroy>
