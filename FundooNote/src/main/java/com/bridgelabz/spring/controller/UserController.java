@@ -102,7 +102,7 @@ public class UserController {
 		if (newUser != null) {
 			return new ResponseEntity<String>("Password reset", HttpStatus.FOUND);
 		} else {
-			return new ResponseEntity<String>("Email incorrect. Please enter valid email address present in database",
+			return new ResponseEntity<String>("couldnot reset the password",
 					HttpStatus.NOT_FOUND);
 		}
 	}

@@ -33,10 +33,8 @@ public class UserDaoImpl implements UserDao {
 					+ user.getMobileNumber());
 			session.close();
 			return user;
-		} else {
-			return null;
 		}
-
+		return null;
 	}
 
 	public User getUserById(int id) {
@@ -48,9 +46,8 @@ public class UserDaoImpl implements UserDao {
 		if (user != null) {
 			session.close();
 			return user;
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	public void updateUser(User user) {

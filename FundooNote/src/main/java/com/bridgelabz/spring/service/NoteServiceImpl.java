@@ -40,11 +40,11 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Transactional
-	public Note updateNote(String token, int id, Note note, HttpServletRequest request) {
+	public Note updateNote(String token, int noteId, Note note, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
 		User user = userDao.getUserById(userId);
 		if (user != null) {
-			Note newNote = noteDao.getNoteById(id);
+			Note newNote = noteDao.getNoteById(noteId);
 			if (newNote != null) {
 				newNote.setTitle(note.getTitle());
 				newNote.setDiscription(note.getDiscription());
@@ -59,13 +59,13 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Transactional
-	public Note deleteNote(String token, int id, HttpServletRequest request) {
+	public Note deleteNote(String token, int noteId, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
 		User user = userDao.getUserById(userId);
 		if (user != null) {
-			Note newNote = noteDao.getNoteById(id);
+			Note newNote = noteDao.getNoteById(noteId);
 			if (newNote != null) {
-				noteDao.deleteNote(id);
+				noteDao.deleteNote(noteId);
 			}
 			return newNote;
 		}
@@ -100,11 +100,11 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Transactional
-	public Label updateLabel(String token, int id, Label label, HttpServletRequest request) {
+	public Label updateLabel(String token, int labelId, Label label, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
 		User user = userDao.getUserById(userId);
 		if (user != null) {
-			Label newLabel = noteDao.getLabelById(id);
+			Label newLabel = noteDao.getLabelById(labelId);
 			if (newLabel != null) {
 				newLabel.setLabelName(label.getLabelName());
 				noteDao.updateLabel(newLabel);
@@ -115,13 +115,13 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Transactional
-	public Label deleteLabel(String token, int id, HttpServletRequest request) {
+	public Label deleteLabel(String token, int labelId, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
 		User user = userDao.getUserById(userId);
 		if (user != null) {
-			Label newLabel = noteDao.getLabelById(id);
+			Label newLabel = noteDao.getLabelById(labelId);
 			if (newLabel != null) {
-				noteDao.deleteLabel(id);
+				noteDao.deleteLabel(labelId);
 			}
 			return newLabel;
 		}

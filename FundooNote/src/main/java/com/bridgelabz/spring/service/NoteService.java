@@ -10,17 +10,17 @@ public interface NoteService {
 
 	List<Note> retrieveNote(String token, HttpServletRequest request);
 
-	Note updateNote(String token, int id, Note note, HttpServletRequest request);
+	Note updateNote(String token, int noteId, Note note, HttpServletRequest request);
 
-	Note deleteNote(String token, int id, HttpServletRequest request);
+	Note deleteNote(String token, int noteId, HttpServletRequest request);
 
 	boolean createLabel(String token, Label label, HttpServletRequest request);
 
 	List<Label> retrieveLabel(String token, HttpServletRequest request);
 
-	Label updateLabel(String token, int id, Label label, HttpServletRequest request);
+	Label updateLabel(String token, int labelId, Label label, HttpServletRequest request);
 
-	Label deleteLabel(String token, int id, HttpServletRequest request);
+	Label deleteLabel(String token, int labelId, HttpServletRequest request);
 
 	boolean addNoteLabel(String token, int noteId, int labelId, HttpServletRequest request);
 

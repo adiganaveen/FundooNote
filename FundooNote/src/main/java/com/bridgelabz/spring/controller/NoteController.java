@@ -45,10 +45,10 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/updatenote", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateNote(@RequestHeader("token") String token, @RequestParam("id") int id,
+	public ResponseEntity<?> updateNote(@RequestHeader("token") String token, @RequestParam("noteId") int noteId,
 			@RequestBody Note note, HttpServletRequest request) {
 
-		Note newNote = noteService.updateNote(token, id, note, request);
+		Note newNote = noteService.updateNote(token, noteId, note, request);
 		if (newNote != null) {
 			return new ResponseEntity<Note>(newNote, HttpStatus.FOUND);
 		} else {
@@ -58,9 +58,9 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/deletenote", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteNote(@RequestHeader("token") String token, @RequestParam("id") int id,
+	public ResponseEntity<?> deleteNote(@RequestHeader("token") String token, @RequestParam("noteId") int noteId,
 			HttpServletRequest request) {
-		Note note = noteService.deleteNote(token, id, request);
+		Note note = noteService.deleteNote(token, noteId, request);
 		if (note != null) {
 			return new ResponseEntity<Note>(note, HttpStatus.FOUND);
 		} else {
@@ -96,9 +96,9 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/updatelabel", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateUser(@RequestHeader("token") String token, @RequestParam("id") int id,
+	public ResponseEntity<?> updateUser(@RequestHeader("token") String token, @RequestParam("labelId") int labelId,
 			@RequestBody Label label, HttpServletRequest request) {
-		Label newLabel = noteService.updateLabel(token, id, label, request);
+		Label newLabel = noteService.updateLabel(token, labelId, label, request);
 		if (newLabel != null) {
 			return new ResponseEntity<Label>(newLabel, HttpStatus.FOUND);
 		} else {
@@ -108,10 +108,10 @@ public class NoteController {
 	}
 
 	@RequestMapping(value = "/deletelabel", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteLabel(@RequestHeader("token") String token, @RequestParam("id") int id,
+	public ResponseEntity<?> deleteLabel(@RequestHeader("token") String token, @RequestParam("labelId") int labelId,
 			HttpServletRequest request) {
 
-		Label label = noteService.deleteLabel(token, id, request);
+		Label label = noteService.deleteLabel(token, labelId, request);
 		if (label != null) {
 			return new ResponseEntity<Label>(label, HttpStatus.FOUND);
 		} else {

@@ -1,0 +1,20 @@
+package com.bridgelabz.spring.Utility;
+
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+import com.bridgelabz.spring.model.User;
+
+public class Validation implements Validator {
+
+	@Override
+	public boolean supports(Class<?> userClass) {
+		return User.class.equals(userClass);
+	}
+
+	@Override
+	public void validate(Object target, Errors errors) {
+		
+	}
+
+}

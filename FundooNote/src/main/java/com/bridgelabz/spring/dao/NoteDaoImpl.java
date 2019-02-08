@@ -26,10 +26,10 @@ public class NoteDaoImpl implements NoteDao {
 
 	}
 
-	public Note getNoteById(int id) {
+	public Note getNoteById(int noteId) {
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery("from Note where noteId= :noteId");
-		query.setInteger("noteId", id);
+		query.setInteger("noteId", noteId);
 		Note note = (Note) query.uniqueResult();
 		if (note != null) {
 			session.close();
@@ -47,18 +47,18 @@ public class NoteDaoImpl implements NoteDao {
 		session.close();
 	}
 
-	public void deleteNote(int id) {
+	public void deleteNote(int noteId) {
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery("DELETE from Note u where u.noteId= :noteId");
-		query.setInteger("noteId", id);
+		query.setInteger("noteId", noteId);
 		query.executeUpdate();
 		session.close();
 	}
 
-	public List<Note> retrieveNote(int id) {
+	public List<Note> retrieveNote(int userId) {
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery("from Note where userId= :userId");
-		query.setInteger("userId", id);
+		query.setInteger("userId", userId);
 		@SuppressWarnings("unchecked")
 		List<Note> notes =query.list();
 		return notes;
@@ -73,10 +73,10 @@ public class NoteDaoImpl implements NoteDao {
 
 	}
 
-	public Label getLabelById(int id) {
+	public Label getLabelById(int labelId) {
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery("from Label where labelId= :labelId");
-		query.setInteger("labelId", id);
+		query.setInteger("labelId", labelId);
 		Label label = (Label) query.uniqueResult();
 		if (label != null) {
 			session.close();
@@ -94,18 +94,18 @@ public class NoteDaoImpl implements NoteDao {
 		session.close();
 	}
 
-	public void deleteLabel(int id) {
+	public void deleteLabel(int labelId) {
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery("DELETE from Label u where u.labelId= :labelId");
-		query.setInteger("labelId", id);
+		query.setInteger("labelId", labelId);
 		query.executeUpdate();
 		session.close();
 	}
 
-	public List<Label> retrieveLabel(int id) {
+	public List<Label> retrieveLabel(int userId) {
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery("from Label where userId= :userId");
-		query.setInteger("userId", id);
+		query.setInteger("userId", userId);
 		@SuppressWarnings("unchecked")
 		List<Label> labels =query.list();
 		return labels;
