@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.spring.model.Label;
 import com.bridgelabz.spring.model.Note;
-import com.bridgelabz.spring.model.User;
 
 @Repository
 public class NoteDaoImpl implements NoteDao {
@@ -40,7 +39,7 @@ public class NoteDaoImpl implements NoteDao {
 		}
 	}
 
-	public void updateNote(int id, Note note) {
+	public void updateNote(Note note) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 		session.update(note);
@@ -60,8 +59,9 @@ public class NoteDaoImpl implements NoteDao {
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery("from Note where userId= :userId");
 		query.setInteger("userId", id);
-		List<Note> listOfNote =query.list();
-		return listOfNote;
+		@SuppressWarnings("unchecked")
+		List<Note> notes =query.list();
+		return notes;
 	}
 	
 	
@@ -86,7 +86,7 @@ public class NoteDaoImpl implements NoteDao {
 		}
 	}
 
-	public void updateLabel(int id, Label label) {
+	public void updateLabel(Label label) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 		session.update(label);
@@ -106,8 +106,9 @@ public class NoteDaoImpl implements NoteDao {
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery("from Label where userId= :userId");
 		query.setInteger("userId", id);
-		List<Label> listOfLabel =query.list();
-		return listOfLabel;
+		@SuppressWarnings("unchecked")
+		List<Label> labels =query.list();
+		return labels;
 	}
 
 }

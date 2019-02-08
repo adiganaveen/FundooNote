@@ -1,15 +1,11 @@
 package com.bridgelabz.spring.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.bridgelabz.spring.Utility.TokenGenerator;
 import com.bridgelabz.spring.dao.NoteDao;
 import com.bridgelabz.spring.dao.UserDao;
@@ -31,8 +27,8 @@ public class NoteServiceImpl implements NoteService {
 
 	@Transactional
 	public boolean createNote(String token, Note note, HttpServletRequest request) {
-		int id = tokenGenerator.verifyToken(token);
-		User user = userDao.getUserById(id);
+		int userId = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(userId);
 		if (user != null) {
 			note.setUserId(user);
 			int i = noteDao.createNote(note);
@@ -45,45 +41,45 @@ public class NoteServiceImpl implements NoteService {
 
 	@Transactional
 	public Note updateNote(String token, int id, Note note, HttpServletRequest request) {
-		int value = tokenGenerator.verifyToken(token);
-		User user = userDao.getUserById(value);
+		int userId = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(userId);
 		if (user != null) {
-			Note note2 = noteDao.getNoteById(id);
-			if (note2 != null) {
-				note2.setTitle(note.getTitle());
-				note2.setDiscription(note.getDiscription());
-				note2.setArchive(note.isArchive());
-				note2.setPinned(note.isPinned());
-				note2.setInTrash(note.isInTrash());
-				noteDao.updateNote(id, note2);
+			Note newNote = noteDao.getNoteById(id);
+			if (newNote != null) {
+				newNote.setTitle(note.getTitle());
+				newNote.setDiscription(note.getDiscription());
+				newNote.setArchive(note.isArchive());
+				newNote.setPinned(note.isPinned());
+				newNote.setInTrash(note.isInTrash());
+				noteDao.updateNote(newNote);
 			}
-			return note2;
+			return newNote;
 		}
 		return null;
 	}
 
 	@Transactional
 	public Note deleteNote(String token, int id, HttpServletRequest request) {
-		int value = tokenGenerator.verifyToken(token);
-		User user = userDao.getUserById(value);
+		int userId = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(userId);
 		if (user != null) {
-			Note note2 = noteDao.getNoteById(id);
-			if (note2 != null) {
+			Note newNote = noteDao.getNoteById(id);
+			if (newNote != null) {
 				noteDao.deleteNote(id);
 			}
-			return note2;
+			return newNote;
 		}
 		return null;
 	}
 
 	@Transactional
 	public List<Note> retrieveNote(String token, HttpServletRequest request) {
-		int id = tokenGenerator.verifyToken(token);
-		User user = userDao.getUserById(id);
+		int userId = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(userId);
 		if (user != null) {
-			List<Note> listOfNote = noteDao.retrieveNote(id);
-			if (!listOfNote.isEmpty()) {
-				return listOfNote;
+			List<Note> notes = noteDao.retrieveNote(userId);
+			if (!notes.isEmpty()) {
+				return notes;
 			}
 		}
 		return null;
@@ -91,8 +87,8 @@ public class NoteServiceImpl implements NoteService {
 
 	@Transactional
 	public boolean createLabel(String token, Label label, HttpServletRequest request) {
-		int id = tokenGenerator.verifyToken(token);
-		User user = userDao.getUserById(id);
+		int userId = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(userId);
 		if (user != null) {
 			label.setUserId(user);
 			int i = noteDao.createLabel(label);
@@ -105,41 +101,41 @@ public class NoteServiceImpl implements NoteService {
 
 	@Transactional
 	public Label updateLabel(String token, int id, Label label, HttpServletRequest request) {
-		int value = tokenGenerator.verifyToken(token);
-		User user = userDao.getUserById(value);
+		int userId = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(userId);
 		if (user != null) {
-			Label label2 = noteDao.getLabelById(id);
-			if (label2 != null) {
-				label2.setLabelName(label.getLabelName());
-				noteDao.updateLabel(id, label2);
+			Label newLabel = noteDao.getLabelById(id);
+			if (newLabel != null) {
+				newLabel.setLabelName(label.getLabelName());
+				noteDao.updateLabel(newLabel);
 			}
-			return label2;
+			return newLabel;
 		}
 		return null;
 	}
 
 	@Transactional
 	public Label deleteLabel(String token, int id, HttpServletRequest request) {
-		int value = tokenGenerator.verifyToken(token);
-		User user = userDao.getUserById(value);
+		int userId = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(userId);
 		if (user != null) {
-			Label label2 = noteDao.getLabelById(id);
-			if (label2 != null) {
+			Label newLabel = noteDao.getLabelById(id);
+			if (newLabel != null) {
 				noteDao.deleteLabel(id);
 			}
-			return label2;
+			return newLabel;
 		}
 		return null;
 	}
 
 	@Transactional
 	public List<Label> retrieveLabel(String token, HttpServletRequest request) {
-		int id = tokenGenerator.verifyToken(token);
-		User user = userDao.getUserById(id);
+		int userId = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(userId);
 		if (user != null) {
-			List<Label> listOfLabel = noteDao.retrieveLabel(id);
-			if (!listOfLabel.isEmpty()) {
-				return listOfLabel;
+			List<Label> labels = noteDao.retrieveLabel(userId);
+			if (!labels.isEmpty()) {
+				return labels;
 			}
 		}
 		return null;
@@ -147,16 +143,16 @@ public class NoteServiceImpl implements NoteService {
 
 	@Transactional
 	public boolean addNoteLabel(String token, int noteId, int labelId, HttpServletRequest request) {
-		int id = tokenGenerator.verifyToken(token);
-		User user = userDao.getUserById(id);
+		int userId = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(userId);
 		if (user != null) {
 			Note note = noteDao.getNoteById(noteId);
 			Label label = noteDao.getLabelById(labelId);
-			List<Label> listOfLabel = note.getListOfLabels();
-			listOfLabel.add(label);
-			if (!listOfLabel.isEmpty()) {
-				note.setListOfLabels(listOfLabel);
-				noteDao.updateNote(1, note);
+			List<Label> labels = note.getLabels();
+			labels.add(label);
+			if (!labels.isEmpty()) {
+				note.setLabels(labels);
+				noteDao.updateNote(note);
 				return true;
 			}
 		}
@@ -164,16 +160,15 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	public boolean removeNoteLabel(String token, int noteId, int labelId, HttpServletRequest request) {
-		int id = tokenGenerator.verifyToken(token);
-		User user = userDao.getUserById(id);
+		int userId = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(userId);
 		if (user != null) {
 			Note note = noteDao.getNoteById(noteId);
-			List<Label> listOfLabels = note.getListOfLabels();
-			if (!listOfLabels.isEmpty()) {
-				listOfLabels = listOfLabels.stream().filter(label -> label.getLabelId() != labelId)
-						.collect(Collectors.toList());
-				note.setListOfLabels(listOfLabels);
-				noteDao.updateNote(noteId, note);
+			List<Label> labels = note.getLabels();
+			if (!labels.isEmpty()) {
+				labels = labels.stream().filter(label -> label.getLabelId() != labelId).collect(Collectors.toList());
+				note.setLabels(labels);
+				noteDao.updateNote(note);
 				return true;
 			}
 		}

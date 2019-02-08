@@ -10,11 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
-import org.hibernate.annotations.GenericGenerator;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "User")
 public class User implements Serializable {
@@ -39,37 +37,28 @@ public class User implements Serializable {
 	@Column(name = "activation_status")
 	private boolean activationStatus;
 
-	public boolean isActivationStatus() {
-		return activationStatus;
-	}
-
-	public void setActivationStatus(boolean activationStatus) {
-		this.activationStatus = activationStatus;
-	}
-	
+	@OneToMany(mappedBy = "userId")
+	@JsonIgnore
+	private Set<Note> Notes;
 
 	@OneToMany(mappedBy = "userId")
 	@JsonIgnore
-	private Set<Note> setOfNotes;
-	
-	@OneToMany(mappedBy = "userId")
-	@JsonIgnore
-	private Set<Label> setOfLabel;
+	private Set<Label> Labels;
 
-	public Set<Label> getSetOfLabel() {
-		return setOfLabel;
+	public Set<Note> getNotes() {
+		return Notes;
 	}
 
-	public void setSetOfLabel(Set<Label> setOfLabel) {
-		this.setOfLabel = setOfLabel;
+	public void setNotes(Set<Note> notes) {
+		Notes = notes;
 	}
 
-	public Set<Note> getSetOfNotes() {
-		return setOfNotes;
+	public Set<Label> getLabels() {
+		return Labels;
 	}
 
-	public void setSetOfNotes(Set<Note> setOfNotes) {
-		this.setOfNotes = setOfNotes;
+	public void setLabels(Set<Label> labels) {
+		Labels = labels;
 	}
 
 	public int getId() {
@@ -86,6 +75,14 @@ public class User implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isActivationStatus() {
+		return activationStatus;
+	}
+
+	public void setActivationStatus(boolean activationStatus) {
+		this.activationStatus = activationStatus;
 	}
 
 	public String getEmailId() {
@@ -115,9 +112,10 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", emailId=" + emailId + ", password=" + password
-				+ ", mobileNumber=" + mobileNumber + ", activationStatus=" + activationStatus + ", setOfNotes="
-				+ setOfNotes + ", setOfLabel=" + setOfLabel + "]";
+				+ ", mobileNumber=" + mobileNumber + ", activationStatus=" + activationStatus + ", Notes=" + Notes
+				+ ", Labels=" + Labels + "]";
 	}
 
+	
 
 }

@@ -19,8 +19,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Note")
 public class Note implements Serializable {
@@ -59,7 +59,7 @@ public class Note implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Label.class, cascade = { CascadeType.ALL })
     @JoinTable(name = "Note_Label", joinColumns = { @JoinColumn(name = "noteId") }, inverseJoinColumns = {
             @JoinColumn(name = "labelId") })
-    private List<Label> listOfLabels;
+    private List<Label> labels;
 
 	public User getUserId() {
 		return userId;
@@ -67,15 +67,6 @@ public class Note implements Serializable {
 
 	public void setUserId(User userId) {
 		this.userId = userId;
-	}
-
-	
-
-	@Override
-	public String toString() {
-		return "Note [noteId=" + noteId + ", title=" + title + ", discription=" + discription + ", createdTime="
-				+ createdTime + ", updatedTime=" + updatedTime + ", isArchive=" + isArchive + ", isPinned=" + isPinned
-				+ ", inTrash=" + inTrash + ", userId=" + userId + ", listOfLabels=" + listOfLabels + "]";
 	}
 
 	public int getNoteId() {
@@ -86,12 +77,12 @@ public class Note implements Serializable {
 		this.noteId = noteId;
 	}
 
-	public List<Label> getListOfLabels() {
-		return listOfLabels;
+	public List<Label> getLabels() {
+		return labels;
 	}
 
-	public void setListOfLabels(List<Label> listOfLabels) {
-		this.listOfLabels = listOfLabels;
+	public void setLabels(List<Label> labels) {
+		this.labels = labels;
 	}
 
 	public String getTitle() {
@@ -150,6 +141,13 @@ public class Note implements Serializable {
 		this.updatedTime = updatedTime;
 	}
 
+	@Override
+	public String toString() {
+		return "Note [noteId=" + noteId + ", title=" + title + ", discription=" + discription + ", createdTime="
+				+ createdTime + ", updatedTime=" + updatedTime + ", isArchive=" + isArchive + ", isPinned=" + isPinned
+				+ ", inTrash=" + inTrash + ", userId=" + userId + ", labels=" + labels + "]";
+	}
 
+	
 
 }

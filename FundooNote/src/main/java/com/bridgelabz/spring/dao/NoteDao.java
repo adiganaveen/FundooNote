@@ -4,26 +4,26 @@ import java.util.List;
 
 import com.bridgelabz.spring.model.Label;
 import com.bridgelabz.spring.model.Note;
-	
+
 public interface NoteDao {
-	public int createNote(Note note);
+	int createNote(Note note);
 
-	public List<Note> retrieveNote(int id);
+	List<Note> retrieveNote(int id);
 
-	public Note getNoteById(int id);
+	Note getNoteById(int id);
 
-	public void updateNote(int id, Note note);
+	void updateNote(Note note);
 
-	public void deleteNote(int id);
-	
-	public int createLabel(Label label);
+	void deleteNote(int id);
 
-	public List<Label> retrieveLabel(int id);
+	int createLabel(Label label);
 
-	public Label getLabelById(int id);
+	List<Label> retrieveLabel(int id);
 
-	public void updateLabel(int id, Label label);
+	Label getLabelById(int id);
 
-	public void deleteLabel(int id);
+	void updateLabel(Label label);
+
+	void deleteLabel(int id);
 
 }

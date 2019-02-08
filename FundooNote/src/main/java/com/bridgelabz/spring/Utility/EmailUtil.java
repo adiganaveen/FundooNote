@@ -18,7 +18,6 @@ public class EmailUtil {
 			SimpleMailMessage msg = new SimpleMailMessage();
 			msg.setFrom("adiga.naveen77@gmail.com");
 			msg.setTo("adiga.naveen77@gmail.com");
-			msg.setSubject("Fundoo Note Verification");
 			String message = "Please click on the link to verify \n\n" + activationUrl;
 			msg.setText(message);
 			msg.setSentDate(new Date());

@@ -27,7 +27,6 @@ public class UserDaoImpl implements UserDao {
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery("from User where emailId= :emailId");
 		query.setString("emailId", emailId);
-		//query.setString("password", password);
 		User user = (User) query.uniqueResult();
 		if (user != null) {
 			System.out.println("User detail is=" + user.getId() + "," + user.getName() + "," + user.getEmailId() + ","
@@ -47,8 +46,6 @@ public class UserDaoImpl implements UserDao {
 		query.setInteger("id", id);
 		User user = (User) query.uniqueResult();
 		if (user != null) {
-			System.out.println("User detail is=" + user.getId() + "," + user.getName() + "," + user.getEmailId() + ","
-					+ user.getMobileNumber());
 			session.close();
 			return user;
 		} else {
@@ -56,9 +53,9 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
-	public void updateUser(int id, User user) {
+	public void updateUser(User user) {
 		Session session = sessionFactory.openSession();
-		Transaction transaction=session.beginTransaction();
+		Transaction transaction = session.beginTransaction();
 		session.update(user);
 		transaction.commit();
 		session.close();

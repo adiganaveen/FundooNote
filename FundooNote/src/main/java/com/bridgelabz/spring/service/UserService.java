@@ -2,18 +2,21 @@ package com.bridgelabz.spring.service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.bridgelabz.spring.model.User;
 
 public interface UserService {
-	public boolean register(User user, HttpServletRequest request);
+	boolean register(User user, HttpServletRequest request);
 
-	public User loginUser(String emailId, String password, HttpServletRequest request,HttpServletResponse response);
+	User loginUser(User user, HttpServletRequest request, HttpServletResponse response);
 
-	public User updateUser(int id, User user, HttpServletRequest request);
+	User updateUser(String token, User user, HttpServletRequest request);
 
-	public User deleteUser(int id, HttpServletRequest request);
-	
-	public User activateUser(String token, HttpServletRequest request);
+	User deleteUser(String token, HttpServletRequest request);
+
+	User activateUser(String token, HttpServletRequest request);
+
+	boolean forgotPassword(String emailId, HttpServletRequest request);
+
+	User resetPassword(User user, String token, HttpServletRequest request);
 
 }
