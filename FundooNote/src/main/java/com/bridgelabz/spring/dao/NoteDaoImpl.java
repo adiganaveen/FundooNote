@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.spring.model.Label;
 import com.bridgelabz.spring.model.Note;
+import com.bridgelabz.spring.model.User;
 
 @Repository
 public class NoteDaoImpl implements NoteDao {

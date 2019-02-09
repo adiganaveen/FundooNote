@@ -45,15 +45,15 @@ public class NoteServiceImpl implements NoteService {
 		User user = userDao.getUserById(userId);
 		if (user != null) {
 			Note newNote = noteDao.getNoteById(noteId);
-			if (newNote != null) {
+			if (newNote != null && (newNote.getUserId().getId()==user.getId())) {
 				newNote.setTitle(note.getTitle());
 				newNote.setDiscription(note.getDiscription());
 				newNote.setArchive(note.isArchive());
 				newNote.setPinned(note.isPinned());
 				newNote.setInTrash(note.isInTrash());
 				noteDao.updateNote(newNote);
+				return newNote;
 			}
-			return newNote;
 		}
 		return null;
 	}
@@ -64,7 +64,7 @@ public class NoteServiceImpl implements NoteService {
 		User user = userDao.getUserById(userId);
 		if (user != null) {
 			Note newNote = noteDao.getNoteById(noteId);
-			if (newNote != null) {
+			if (newNote != null&& (newNote.getUserId().getId()==user.getId())) {
 				noteDao.deleteNote(noteId);
 			}
 			return newNote;
@@ -105,7 +105,7 @@ public class NoteServiceImpl implements NoteService {
 		User user = userDao.getUserById(userId);
 		if (user != null) {
 			Label newLabel = noteDao.getLabelById(labelId);
-			if (newLabel != null) {
+			if (newLabel != null && (newLabel.getUserId().getId()==user.getId())) {
 				newLabel.setLabelName(label.getLabelName());
 				noteDao.updateLabel(newLabel);
 			}
@@ -120,7 +120,7 @@ public class NoteServiceImpl implements NoteService {
 		User user = userDao.getUserById(userId);
 		if (user != null) {
 			Label newLabel = noteDao.getLabelById(labelId);
-			if (newLabel != null) {
+			if (newLabel != null &&(newLabel.getUserId().getId()==user.getId())) {
 				noteDao.deleteLabel(labelId);
 			}
 			return newLabel;

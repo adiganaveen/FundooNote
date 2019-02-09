@@ -1,0 +1,13 @@
+package com.bridgelabz.spring.Utility;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.validation.Validator;
+
+public class SpringConfiguration {
+	@Bean
+	public Validator userValidator()
+	{
+		Validator bean = new Validation();
+		return bean;
+	}
+}

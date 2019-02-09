@@ -1,0 +1,6 @@
+package com.bridgelabz.spring.Utility;
+
+public interface SpringConfiguration {
+	
+
+}
