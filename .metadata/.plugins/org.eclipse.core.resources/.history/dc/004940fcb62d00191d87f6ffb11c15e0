@@ -2,6 +2,8 @@ package com.bridgelabz.spring.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,7 +40,7 @@ public class UserController {
 		binder.setValidator(validator);
 	}
 
-	@RequestMapping(value = "/registeruser", method = RequestMethod.POST)
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> registerUser(@Validated @RequestBody User user, BindingResult bindingResult,
 			HttpServletRequest request) {
 		if (bindingResult.hasErrors()) {
@@ -55,7 +57,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/loginuser", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<?> loginUser(@RequestBody User user, HttpServletRequest request,
 			HttpServletResponse response) {
 
@@ -67,7 +69,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/updateuser", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateUser(@RequestHeader("token") String token, @RequestBody User user,
 			HttpServletRequest request) {
 
@@ -80,7 +82,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/deleteuser", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteUser(@RequestHeader("token") String token, HttpServletRequest request) {
 
 		User user = userService.deleteUser(token, request);
